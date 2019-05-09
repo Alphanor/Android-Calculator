@@ -7,7 +7,6 @@ import android.content.ClipboardManager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.app.NotificationCompat;
 import android.view.View;
 import android.widget.Button;
 import android.widget.HorizontalScrollView;
@@ -27,10 +26,8 @@ public class MainActivity extends AppCompatActivity {
     Button button1, button2, button3, button4, button5, button6, button7, button8, button9, button0, buttonCE, buttonRoot, buttonSin, buttonCos, buttonBracketsOpen, buttonBracketsClose, buttonTan, buttonPI, buttonExponentation, buttonSum, buttonSubtraction, buttonMultiplication, buttonDivision, buttonEqual;
     String stringNumber, stringSpecial;
     Expression expression;
-    int notificationId=001;
     double value=0;
     boolean numberClicked=false;
-    NotificationCompat.Builder resultNotification;
     ClipboardManager clipboard;
     ClipData clip;
     int charBracketOpenCount=0, charBracketCloseCount=0, charInExceed=0, dotCount=0;
@@ -71,8 +68,6 @@ public class MainActivity extends AppCompatActivity {
         buttonMultiplication = (Button) findViewById(R.id.buttonMultiplication);
         buttonDivision = (Button) findViewById(R.id.buttonDivision);
         buttonEqual = (Button) findViewById(R.id.buttonEqaul);
-
-        resultNotification = new NotificationCompat.Builder(this);
 
         getSupportActionBar().setElevation(0);
 
@@ -504,20 +499,6 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 buttonCE.setText("CLR");
-
-                NotificationManager notifyManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-
-                Intent intent = new Intent(this, MainActivity.class);
-                PendingIntent pIntent = PendingIntent.getActivity(this, (int) System.currentTimeMillis(), intent, 0);
-
-                resultNotification.setSmallIcon(R.drawable.ic_stat_name);
-                resultNotification.setContentTitle("Last equation solved");
-                resultNotification.setContentText(stringNumber + " = " + Double.toString(value));
-                resultNotification.setWhen(System.currentTimeMillis());
-                resultNotification.setColor(rgb(165, 0, 229));
-                resultNotification.setContentIntent(pIntent);
-
-                notifyManager.notify(notificationId, resultNotification.build());
             }
         }
 
