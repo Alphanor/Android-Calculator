@@ -520,74 +520,88 @@ public class MainActivity extends AppCompatActivity {
         Toast.makeText(MainActivity.this, "Copied operations to clipboard", Toast.LENGTH_SHORT).show();
     }
 
+
     public void clickButtonCE() {
 
         buttonCE.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                stringSpecial = operationsDisplay.getText().toString();
+                if(buttonCE.getText().equals("CLR")) {
+                    numberDisplay.setText(null);
+                    operationsDisplay.setText(null);
+                    stringNumber="";
+                    stringSpecial="";
+                    value=0;
+                    numberClicked=false;
+                    charBracketCloseCount=0;
+                    charBracketOpenCount=0;
+                    charInExceed=0;
+                    dotCount=0;
+                    buttonCE.setText("DEL");
+                }
+                else
+                {                stringSpecial = operationsDisplay.getText().toString();
 
-                if(!stringSpecial.isEmpty()) {
+                    if(!stringSpecial.isEmpty()) {
 
-                    if (Double.toString(value).equals(numberDisplay.getText().toString())) {
+                        if (Double.toString(value).equals(numberDisplay.getText().toString())) {
 
+                        }
+
+                        else if (stringSpecial.endsWith("sin(") || stringSpecial.endsWith("cos(") || stringSpecial.endsWith("tan(")) {
+                            stringSpecial = stringSpecial.substring(0, stringSpecial.length() - 4);
+                            operationsDisplay.setText(stringSpecial);
+                        }
+
+                        else if(stringSpecial.endsWith(".")) {
+                            dotCount=0;
+                            stringSpecial = stringSpecial.substring(0, stringSpecial.length()-1);
+                            operationsDisplay.setText(stringSpecial);
+
+                        }
+
+                        else {
+                            stringSpecial = stringSpecial.substring(0, stringSpecial.length() - 1);
+                            operationsDisplay.setText(stringSpecial);
+                            numberClicked=false;
+                            if(stringSpecial.endsWith("1") || stringSpecial.endsWith("2") || stringSpecial.endsWith("3") || stringSpecial.endsWith("4") || stringSpecial.endsWith("5") || stringSpecial.endsWith("6") || stringSpecial.endsWith("7") || stringSpecial.endsWith("8") || stringSpecial.endsWith("9") || stringSpecial.endsWith("0") || stringSpecial.endsWith(")")) {
+                                numberClicked=true;
+                            }
+                        }
                     }
 
-                    else if (stringSpecial.endsWith("sin(") || stringSpecial.endsWith("cos(") || stringSpecial.endsWith("tan(")) {
-                        stringSpecial = stringSpecial.substring(0, stringSpecial.length() - 4);
-                        operationsDisplay.setText(stringSpecial);
-                    }
+                    stringSpecial = numberDisplay.getText().toString();
 
-                    else if(stringSpecial.endsWith(".")) {
-                        dotCount=0;
-                        stringSpecial = stringSpecial.substring(0, stringSpecial.length()-1);
-                        operationsDisplay.setText(stringSpecial);
+                    if(!stringSpecial.isEmpty()) {
 
-                    }
+                        if (Double.toString(value).equals(numberDisplay.getText().toString())) {
 
-                    else {
-                        stringSpecial = stringSpecial.substring(0, stringSpecial.length() - 1);
-                        operationsDisplay.setText(stringSpecial);
-                        numberClicked=false;
-                        if(stringSpecial.endsWith("1") || stringSpecial.endsWith("2") || stringSpecial.endsWith("3") || stringSpecial.endsWith("4") || stringSpecial.endsWith("5") || stringSpecial.endsWith("6") || stringSpecial.endsWith("7") || stringSpecial.endsWith("8") || stringSpecial.endsWith("9") || stringSpecial.endsWith("0") || stringSpecial.endsWith(")")) {
-                            numberClicked=true;
+                        }
+
+                        else if(stringSpecial.equals("Invalid expression") || stringSpecial.equals("Can't divide by 0")) {
+
+                        }
+
+                        else if (stringSpecial.endsWith("sin(") || stringSpecial.endsWith("cos(") || stringSpecial.endsWith("tan(")) {
+                            stringSpecial = stringSpecial.substring(0, stringSpecial.length() - 4);
+                            numberDisplay.setText(stringSpecial);
+                        }
+
+                        else if(stringSpecial.endsWith("√(")) {
+                            stringSpecial = stringSpecial.substring(0, stringSpecial.length()-2);
+                            numberDisplay.setText(stringSpecial);
+                        }
+
+                        else {
+
+                            stringSpecial = stringSpecial.substring(0, stringSpecial.length() - 1);
+                            numberDisplay.setText(stringSpecial);
                         }
                     }
                 }
-
-                stringSpecial = numberDisplay.getText().toString();
-
-                if(!stringSpecial.isEmpty()) {
-
-                    if (Double.toString(value).equals(numberDisplay.getText().toString())) {
-
-                    }
-
-                    else if(stringSpecial.equals("Invalid expression") || stringSpecial.equals("Can't divide by 0")) {
-
-                    }
-
-                    else if (stringSpecial.endsWith("sin(") || stringSpecial.endsWith("cos(") || stringSpecial.endsWith("tan(")) {
-                        stringSpecial = stringSpecial.substring(0, stringSpecial.length() - 4);
-                        numberDisplay.setText(stringSpecial);
-                    }
-
-                    else if(stringSpecial.endsWith("√(")) {
-                        stringSpecial = stringSpecial.substring(0, stringSpecial.length()-2);
-                        numberDisplay.setText(stringSpecial);
-                    }
-
-                    else {
-
-                        stringSpecial = stringSpecial.substring(0, stringSpecial.length() - 1);
-                        numberDisplay.setText(stringSpecial);
-                    }
-                }
-
-                }
+            }
         });
-
 
         buttonCE.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
